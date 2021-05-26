@@ -8,7 +8,7 @@ on:
 jobs:
   build_latest_images:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'sy-records/docker-swoole' }}
+    if: ${{ github.repository == 'lufei/docker-swoole' }}
     strategy:
       fail-fast: true
       matrix:
