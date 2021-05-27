@@ -20,6 +20,8 @@ class Dockerfile
 {
     protected const ALPINE = 'alpine';
     protected const CLI = 'cli';
+    protected const FPM = 'fpm';
+    protected const FPM_ALPINE = 'fpm-alpine';
 
     protected const ALPINE_VERSIONS = [
         // PHP major version => Alpine version,
@@ -58,8 +60,13 @@ class Dockerfile
      */
     public function render(): void
     {
+        $builds = [self::ALPINE, self::CLI];
+        if ($this->swooleVersion == self::FPM) {
+            $builds = [self::FPM, self::FPM_ALPINE];
+        }
+
         foreach ($this->getConfig()['php'] as $phpVersion) {
-            foreach ([self::ALPINE, self::CLI] as $type) {
+            foreach ($builds as $type) {
                 $this->generateDockerFile($phpVersion, $type, true);
             }
         }
@@ -247,7 +254,17 @@ class Dockerfile
 
     protected function getTemplateFile(string $type): string
     {
-        return (self::ALPINE == $type) ? 'Dockerfile.alpine.twig' : 'Dockerfile.cli.twig';
+        switch ($type) {
+            case self::ALPINE:
+                return 'Dockerfile.alpine.twig';
+            case self::FPM_ALPINE:
+                return 'Dockerfile.fpm-alpine.twig';
+            case self::FPM:
+                return 'Dockerfile.fpm.twig';
+            case self::CLI:
+            default:
+                return 'Dockerfile.cli.twig';
+        }
     }
 
     protected function getAlpineVersion(string $phpVersion): string
