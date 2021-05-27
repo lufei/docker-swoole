@@ -60,13 +60,8 @@ class Dockerfile
      */
     public function render(): void
     {
-        $builds = [self::ALPINE, self::CLI];
-        if ($this->swooleVersion == self::FPM) {
-            $builds = [self::FPM, self::FPM_ALPINE];
-        }
-
         foreach ($this->getConfig()['php'] as $phpVersion) {
-            foreach ($builds as $type) {
+            foreach ([self::ALPINE, self::CLI, self::FPM, self::FPM_ALPINE] as $type) {
                 $this->generateDockerFile($phpVersion, $type, true);
             }
         }

@@ -1,4 +1,4 @@
-FROM php:7.3.28-fpm
+FROM php:7.1.33-fpm
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM            xterm-color
@@ -11,7 +11,7 @@ COPY ./rootfilesystem/ /
 RUN \
     curl -sfL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
     chmod +x /usr/bin/composer                                                                     && \
-    composer self-update 2.0.13                                                    && \
+    composer self-update 1.10.21                                                    && \
     apt-get update              && \
     apt-get install -y             \
         libssl-dev                 \
