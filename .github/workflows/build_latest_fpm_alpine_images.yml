@@ -1,4 +1,4 @@
-name: Build Latest Fpm-alpine Images
+name: Build Latest FPM Alpine Images
 
 on:
   schedule:
